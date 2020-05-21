@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Register
+{% endblock %}
+
+{% block header %}
+    <h3 class="title"> Register </h3>
+{% endblock %}
+
+{% block content %}
+
+    <form class="form" method="POST">
+        {% with messages = get_flashed_messages () %}
+            {% if messages %}
+                <ul class="messages">
+                    {% for message in messages %}
+                        <li class="message-item">{{ message }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        {% endwith %}
+        <div class="group-form">
+            <label class="label">First Name</label>
+            <input class="input-form" type="text" name="first_name" id="id_first_name">
+        </div>
+        <div class="group-form">
+            <label class="label">Last Name</label>
+            <input class="input-form" type="text" name="last_name" id="id_last_name">
+        </div>
+        <div class="group-form">
+            <label class="label">E-mail</label>
+            <input class="input-form" type="text" name="email" id="id_email">
+        </div>
+        <div class="group-form">
+            <label class="label">Password</label>
+            <input class="input-form" type="password" name="password" id="id_password">
+        </div>
+        <div class="group-form">
+            <label class="label">Password Confirmation</label>
+            <input class="input-form" type="password" name="password_confirm" id="id_password_confirm">
+        </div>
+        <button class="button" type="submit"> Register </button>
+    </form>
+
+{% endblock %}

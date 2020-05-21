@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Home Page
+{% endblock %}
+
+{% block header %}
+    <h3 class="title">Home Page</h3>
+{% endblock %}
+
+{% block content %}
+<div class="main">
+    <p class="title title-feature"> Welcome to the Tasks Manager Application</p>
+    <p class="subtitle"> See below our features </p>
+    <ul class="list-features">
+        <li class="list-features-item"> Create tasks and manage them </li>
+        <li class="list-features-item"> List all the tasks and filter it </li>
+        <li class="list-features-item"> Create user's profile and manage them </li>
+        <li class="list-features-item"> See any resumes about your last tasks </li>
+    </ul>
+    <div class="resume">
+        <h4 class="title"> Your Resume about Tasks. </h4>
+        <h6 class="subtitle"> Current Month: {{ month }} </h6>
+        <table class="table">
+            <thead class="table-header">
+                <tr class="table-row">
+                    <th> This month </th>
+                    <th> This year </th>
+                    <th> All time </th>
+                </tr>
+            </thead>
+            <tbody class="table-body">
+                <tr class="table-row">
+                    <td> 2 </td>
+                    <td> 1 </td>
+                    <td> 5 </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

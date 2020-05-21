@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Tasks
+{% endblock %}
+
+{% block header %}
+    <h3 class="title"> Tasks List </h3>
+{% endblock %}
+
+{% block content %}
+    {% include 'tasks/filter.html' %}
+    <div class="content">
+        {% if tasks %}
+            <ul class="list">
+                {% for task in tasks %}
+                    <div class="list-group">
+                        <div class="list-header">
+                            <h4 class="list-title"> Task {{ task.code }}</h4>
+                            <div class="list-actions">
+                                <a class="link-actions" href="{{ url_for('app.index')}}">
+                                    Edit
+                                </a>
+                                <a class="link-actions" href="{{ url_for('app.index')}}">
+                                    Remove
+                                </a>
+                            </div>
+                        </div>
+                        <hr class="line">
+                        <li class="list-item">
+                            <label class="label"> Title:</label>
+                            {{ task.description }}
+                        </li>
+                        <hr class="line">
+                        <li class="list-item">
+                            <label class="label"> Created At:</label>
+                            {{ task.date_task }}
+                        </li>
+                        <hr class="line">
+                        <li class="list-item">
+                            <label class="label"> Completed?</label>
+                            {% if task.completed %}
+                                Yes
+                            {% else %}
+                                No
+                            {% endif %}
+                        </li>
+                    </div>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <div class="message">
+                <p class="description"> There's no tasks to show </p>
+            </div>
+        {% endif %}
+    </div>
+{% endblock %}
