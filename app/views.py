@@ -49,6 +49,8 @@ def tasks():
 @bp.route('/tasks/new', methods=['GET', 'POST'])
 @login_required
 def new_task():
+    task = None
+    title = 'Create Task'
     if request.method == 'POST':
         error = None
         current_user = session.get('user_id')
@@ -65,7 +67,34 @@ def new_task():
             return redirect(url_for('app.tasks'))
 
         flash(error)
-    return render_template('tasks/create.html')
+    return render_template('tasks/form_task.html', task=task, title=title)
+
+
+@bp.route('/tasks/edit/<int:id>', methods=['GET', 'POST'])
+@login_required
+def edit_task(id):
+    task = Task.query.filter_by(id=id).first()
+    title = 'Edit Task'
+    if request.method == 'POST':
+        error = None
+        current_user = session.get('user_id')
+        description = request.form['description']
+        completed = request.form['completed']
+        if description and completed and task.user_id == current_user:
+            task.description = description
+            if completed == 'Yes':
+                task.completed = True
+            else:
+                task.completed = False
+            task.update_task_date = datetime.datetime.now()
+            db.session.commit()
+            return redirect(url_for('app.tasks'))
+        else:
+            error = 'Could not possible update the task'
+
+        flash(error)
+
+    return render_template('tasks/form_task.html', task=task, title=title)
 
 
 @bp.route('/register', methods=['GET', 'POST'])

@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    {{ title }}
+{% endblock %}
+
+{% block header %}
+    <h3 class="title"> {{ title }} </h3>
+{% endblock %}
+
+{% block content %}
+
+    <form class="form" method="POST">
+        {% with messages = get_flashed_messages () %}
+            {% if messages %}
+                <ul class="messages">
+                    {% for message in messages %}
+                        <li class="message-item">{{ message }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        {% endwith %}
+        <div class="group-form">
+            <label class="label">Description</label>
+            <input class="input-form" type="text" name="description" id="id_description" value="{{ task.description }}">
+        </div>
+        <div class="group-form">
+            <label class="label">Completed?</label>
+            {% if task.completed is defined %}
+                {% if task.completed == True %}
+                    <div class="radio-group">
+                        <label class="label" for="id_yes">Yes</label>
+                        <input class="radio-button" type="radio" name="completed" id="id_yes" value="Yes" checked>
+                        <label class="label" for="id_no"> No </label>
+                        <input class="radio-button" type="radio" name="completed" id="id_no" value="No">
+                    </div>
+                {% else %}
+                    <div class="radio-group">
+                        <label class="label" for="id_yes">Yes</label>
+                        <input class="radio-button" type="radio" name="completed" id="id_yes" value="Yes">
+                        <label class="label" for="id_no"> No </label>
+                        <input class="radio-button" type="radio" name="completed" id="id_no" value="No" checked>
+                    </div>
+                {% endif %}
+            {% else %}
+                <div class="radio-group">
+                    <label class="label" for="id_yes">Yes</label>
+                    <input class="radio-button" type="radio" name="completed" id="id_yes" value="Yes">
+                    <label class="label" for="id_no"> No </label>
+                    <input class="radio-button" type="radio" name="completed" id="id_no" value="No">
+                </div>
+            {% endif %}
+        </div>
+        <button class="button" type="submit"> Save </button>
+    </form>
+
+{% endblock %}

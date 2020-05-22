@@ -35,16 +35,18 @@ class Task(db.Model):
     code = db.Column(db.String(32), nullable=False)
     description = db.Column(db.String(255), nullable=False)
     date_task = db.Column(db.String(10), nullable=False)
+    update_task_date = db.Column(db.DateTime(timezone=True), nullable=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     completed = db.Column(db.Boolean, nullable=False)
 
     def get_today_date(self):
         return datetime.datetime.now().strftime('%d/%m/%Y')
 
-    def __init__(self, description, user_id, completed):
+    def __init__(self, description, update_task_date, user_id, completed):
         self.description = description
         self.code = uuid.uuid4().hex
         self.date_task = self.get_today_date()
+        self.update_task_date = update_task_date
         self.user_id = user_id
         self.completed = completed
 

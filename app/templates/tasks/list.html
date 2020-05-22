@@ -18,7 +18,7 @@
                         <div class="list-header">
                             <h4 class="list-title"> Task {{ task.code }}</h4>
                             <div class="list-actions">
-                                <a class="link-actions" href="{{ url_for('app.index')}}">
+                                <a class="link-actions" href="{{ url_for('app.edit_task', id=task.id )}}">
                                     Edit
                                 </a>
                                 <a class="link-actions" href="{{ url_for('app.index')}}">
@@ -36,6 +36,18 @@
                             <label class="label"> Created At:</label>
                             {{ task.date_task }}
                         </li>
+                        <hr class="line">
+                        {% if not task.update_task_date %}
+                            <li class="list-item">
+                                <label class="label"> Updated At:</label>
+                                Never
+                            </li>
+                        {% else %}
+                            <li class="list-item">
+                                <label class="label"> Updated At:</label>
+                                {{ task.update_task_date.strftime('%d/%m/%Y - %Hh%M') }}
+                            </li>
+                        {% endif %}
                         <hr class="line">
                         <li class="list-item">
                             <label class="label"> Completed?</label>
