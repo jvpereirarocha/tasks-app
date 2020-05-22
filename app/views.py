@@ -97,6 +97,21 @@ def edit_task(id):
     return render_template('tasks/form_task.html', task=task, title=title)
 
 
+@bp.route('/tasks/delete/<int:id>', methods=['GET', 'POST'])
+@login_required
+def delete_task(id):
+    current_user = session.get('user_id')
+    error = None
+    task = Task.query.filter_by(id=id)
+    if task.user_id == current_user:
+        db.session.delete(task)
+        db.session.commit()
+    else:
+        error = 'Could not possible delete this task'
+    flash(error)
+    return redirect(url_for('app.tasks'))
+
+
 @bp.route('/register', methods=['GET', 'POST'])
 def register():
     if request.method == 'POST':
