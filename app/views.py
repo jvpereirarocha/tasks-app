@@ -1,6 +1,6 @@
 from flask import (
     Blueprint, render_template, request, flash, session, redirect,
-    url_for, g
+    url_for, g, jsonify
 )
 import datetime
 from .extensions import db
@@ -61,7 +61,8 @@ def new_task():
         if error is None:
             check = True if completed == 'Yes' else False
             task = Task(description=description,
-                        user_id=current_user, completed=check)
+                        user_id=current_user, update_task_date=None,
+                        completed=check)
             db.session.add(task)
             db.session.commit()
             return redirect(url_for('app.tasks'))
@@ -101,15 +102,16 @@ def edit_task(id):
 @login_required
 def delete_task(id):
     current_user = session.get('user_id')
-    error = None
-    task = Task.query.filter_by(id=id)
+    task = Task.query.filter_by(id=id).first()
     if task.user_id == current_user:
         db.session.delete(task)
         db.session.commit()
-    else:
-        error = 'Could not possible delete this task'
-    flash(error)
-    return redirect(url_for('app.tasks'))
+        return jsonify({
+            'info': 'Task deleted'
+        })
+    return jsonify({
+        'error': 'Could not possible delete this task'
+    })
 
 
 @bp.route('/register', methods=['GET', 'POST'])

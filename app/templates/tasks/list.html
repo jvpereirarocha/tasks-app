@@ -21,7 +21,7 @@
                                 <a class="link-actions" href="{{ url_for('app.edit_task', id=task.id )}}">
                                     Edit
                                 </a>
-                                <a class="link-actions" href="{{ url_for('app.index')}}">
+                                <a id="{{ task.id }}" name="task-remove-{{ task.id }}" class="link-actions removeLink" href="#">
                                     Remove
                                 </a>
                             </div>
