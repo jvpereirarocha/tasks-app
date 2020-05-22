@@ -1,11 +1,12 @@
 from flask import (
-    Blueprint, render_template, request, flash, session, redirect,
+    Blueprint, render_template, request, abort, flash, session, redirect,
     url_for, g
 )
 import datetime
 from .extensions import db
 from .models import User, Task
 from .decorators import login_required
+from .utils import get_month_by_name
 from sqlalchemy import func
 
 bp = Blueprint('app', __name__)
@@ -14,7 +15,15 @@ bp = Blueprint('app', __name__)
 @bp.route('/', methods=['GET'])
 @login_required
 def index():
-    return render_template('index.html')
+    if request.method == 'GET':
+        current_user = session.get('user_id')
+        number_month = datetime.datetime.now().month
+        tasks_this_month = Task.query.filter_by(
+            date_task=datetime.datetime.now().month, user_id=current_user).all()
+        print(tasks_this_month)
+        month = get_month_by_name(number_month)
+        return render_template('index.html', month=month)
+    return abort(403)
 
 
 @bp.route('/tasks', methods=['GET'])
@@ -133,7 +142,7 @@ def edit_user(id):
         last_name = request.form['last_name']
         email = request.form['email']
         exists_this_email = User.query.filter_by(email=email).first()
-        if not exists_this_email or user.email == email:
+        if email != user.email and not exists_this_email:
             user.first_name = first_name
             user.last_name = last_name
             user.email = email
