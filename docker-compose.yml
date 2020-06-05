@@ -1,0 +1,26 @@
+version: '3.5'
+services:
+
+  tasks:
+    container_name: app
+    build: .
+    env_file:
+      - .env
+    ports:
+      - "5005:5005"
+    depends_on:
+      - db
+
+  db:
+    container_name: db
+    image: postgres:12-alpine
+    env_file:
+      - .env
+    expose:
+      - "5433"
+    ports:
+      - "5433:5432"
+    volumes:
+      - "db_init:/var/lib/postgresql/data"
+volumes:
+  db_init:
